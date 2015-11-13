@@ -7,7 +7,7 @@ var utils = (function() {
         
         var selected = document.querySelector(selector);
         if (!selected) {
-            throw 'getAttribBySelector: no item matching selector' + selector;
+            throw 'getAttribBySelector: no item matching selector ' + selector;
         }
         
         return selected;

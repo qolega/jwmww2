@@ -21,7 +21,7 @@ function getFullUrl(page, soldierId) {
     return manageUrl + page + sufixUrl + soldierId;
 }
 
-var errorsLog = 'warriors_witherrors.json';
+var errorsLog = './data/warriors_witherrors.json';
 var outputFileName = './data/warriors.json';
 
 cleanWorkingDirectory();
@@ -50,8 +50,7 @@ function getSoldierDetails(soldier) {
     soldier.personal_information.migration_date = utils.getDateByIdPostfix('Immigration');
 
     var isMale = utils.getIsCheckedBySelector('input[id$="rbMale"]');
-    soldier.personal_information.gender = isMale ? 'M' : 'F';
-    
+    soldier.personal_information.gender = isMale ? 'male' : 'female';
 
     soldier.death_details = {};
     soldier.death_details.death_cause = utils.getAttribBySelector('input[id$="txtDeathRemarks"]', 'value');
@@ -76,10 +75,23 @@ function getSoldierWW2Details(soldier) {
     soldier.ww2.partisan_country = utils.getDropDownSeleced('select[id$="ddlForests"]');
     
     soldier.ww2.getto_check = utils.getIsCheckedBySelector('input[id$="chkGetto"]');
-    soldier.ww2.partisan_country = utils.getDropDownSeleced('select[id$="ddlForests"]');
+    soldier.ww2.getto = utils.getAttribBySelector('input[id$="txtGetto"]', 'value');
+    
+    soldier.ww2.resistance_movement_check = utils.getIsCheckedBySelector('input[id$="chkPartisans"]');
+    soldier.ww2.resistance_movement_country = utils.getDropDownSeleced('select[id$="ddlPartizans"]');
+    
+    soldier.ww2.protest_movement_check = utils.getIsCheckedBySelector('input[id$="chkProtest"]');
+    soldier.ww2.protest_movement = utils.getAttribBySelector('input[id$="txtProtest"]', 'value');
     
     soldier.ww2.service_check = utils.getIsCheckedBySelector('input[id$="chkRegularService"]');
     soldier.ww2.service_country = utils.getDropDownSeleced('select[id$="ddlServiceCountry"]');
+    soldier.ww2.service_corps = utils.getDropDownSeleced('select[id$="ddlDivision"]');
+    soldier.ww2.service_platoon = utils.getAttribBySelector('input[id$="txtPlatoon"]', 'value');
+    
+    var isVolunteer = utils.getIsCheckedBySelector('input[id$="rbVolunteer"]');
+    soldier.ww2.recruitment = isVolunteer ? 'volunteer' : 'enlist';
+    
+    soldier.ww2.dismiss_reason = utils.getAttribBySelector('input[id$="txtDismissReason"]', 'value');
 
     soldier.battles = [];
     var battles = document.querySelectorAll('table[id$="GridViewBattles"] tr');
@@ -94,7 +106,70 @@ function getSoldierWW2Details(soldier) {
         battle.details = battles[i].querySelector('span[id$="remarksLabel"]').innerHTML;
         soldier.battles.push(battle);
     }
+    
+    soldier.ww2.wounds_details = utils.getAttribBySelector('textarea[id$="txtWounded"]', 'value');
+    
+    soldier.prison = {};
+    soldier.prison.dates = utils.getAttribBySelector('input[id$="txtPrisonDates"]', 'value');
+    soldier.prison.place = utils.getAttribBySelector('input[id$="txtPrisonPlace"]', 'value');
+    soldier.prison.name = utils.getAttribBySelector('input[id$="txtPrisonName"]', 'value');
+    soldier.prison.circumstances = utils.getAttribBySelector('textarea[id$="txtPrisonReason"]', 'value');
 
+    return soldier;
+}
+
+function getSoldierIdfDetails(soldier) {
+    
+    soldier.idf_details = {};
+    soldier.idf_details.corps = utils.getDropDownSeleced('select[id$="ddlDivision"]');
+    soldier.idf_details.platoon = utils.getAttribBySelector('input[id$="txtPlatoon"]', 'value');
+    soldier.idf_details.enlist_date = utils.getDateByIdPostfix('Enlist');
+    soldier.idf_details.rank = utils.getDropDownSeleced('select[id$="ddlDegree"]');
+    soldier.idf_details.release_date = utils.getDateByIdPostfix('Release');
+    
+    soldier.idf_battles = [];
+    var battles = document.querySelectorAll('table[id$="GridViewBattles"] tr');
+    for (var i = 1; i < battles.length; i++) {
+        var battle = {};
+        battle.front = battles[i].querySelector('span[id$="frontLabel"]').innerHTML;
+        battle.operation = battles[i].querySelector('span[id$="battleLabel"]').innerHTML;
+        battle.date = battles[i].querySelector('span[id$="battleDateLabel"]').innerHTML;
+        battle.medal = battles[i].querySelector('span[id$="medalLabel"]').innerHTML;
+        battle.details = battles[i].querySelector('span[id$="remarksLabel"]').innerHTML;
+        soldier.battles.push(battle);
+    }
+    
+    return soldier;
+}
+
+function getSoldierContactInfo(soldier) {
+    
+    soldier.contact_information = {};
+    soldier.contact_information.first_name = utils.getAttribBySelector('input[id$="txtFirstName"]', 'value');
+    soldier.contact_information.last_name = utils.getAttribBySelector('input[id$="txtLastName"]', 'value');
+    soldier.contact_information.address = utils.getAttribBySelector('input[id$="txtAddress"]', 'value');
+    soldier.contact_information.city = utils.getAttribBySelector('input[id$="txtCity"]', 'value');
+    soldier.contact_information.phone = utils.getAttribBySelector('input[id$="txtPhone"]', 'value');
+    soldier.contact_information.mobile_phone = utils.getAttribBySelector('input[id$="txtMobile"]', 'value');
+    soldier.contact_information.email_address = utils.getAttribBySelector('input[id$="txtEmail"]', 'value');
+    soldier.contact_information.relation_to_warrior = utils.getAttribBySelector('input[id$="txtRelative"]', 'value');
+    soldier.contact_information.date = utils.getAttribBySelector('input[id$="txtDate"]', 'value');
+    soldier.contact_information.first_submission = utils.getIsCheckedBySelector('input[id$="rbPreviousNo"]');
+    soldier.contact_information.for_display = utils.getIsCheckedBySelector('input[id$="rbForDisplayYes"]');
+    
+    return soldier;
+}
+
+function getSoldierMedals(soldier) {
+    
+    soldier.medal_links = []
+    var links = document.querySelectorAll('table[id$="GridViewLinks"] tr');
+    for (var i = 1; i < links.length; i++) {
+        var link = {};
+        link.title = links[i].querySelector('span[id$="titleLabel"]').innerHTML;
+        link.href = links[i].querySelector('span[id$="linkLabel"]').innerHTML;
+        soldier.medal_links.push(link);
+    }
     return soldier;
 }
 
@@ -125,6 +200,11 @@ function getSoldierImages(soldier) {
     return soldier;
 }
 
+function getSoldierVarious(soldier) {
+    soldier.resume = utils.getAttribsBySelector('textarea[name$="txtRemarks"]');
+    return soldier;
+}
+
 function getSoldierLinks(soldier) {
     
     soldier.links = []
@@ -138,6 +218,7 @@ function getSoldierLinks(soldier) {
     return soldier;
 }
 
+
 casper.start('http://www.jwmww2.org/jewishFighters/Manage/Login.aspx', function() {
     this.fill('form[action="Login.aspx"]', {
         txtusername: 'admin',
@@ -145,6 +226,7 @@ casper.start('http://www.jwmww2.org/jewishFighters/Manage/Login.aspx', function(
     });
     this.click('input[type="submit"]');
 });
+
 
 casper.then(function() {
     warriorIds = JSON.parse(fs.read('./data/warriors_id.json'));
@@ -155,15 +237,24 @@ function extractSoldier(soldierId) {
 
     var soldier = {};
 
-    console.log('about to navigate to: ' + getFullUrl('PersonalManage', soldierId));
-
     casper.thenOpen(getFullUrl('PersonalManage', soldierId), function() {
         soldier = this.evaluate(getSoldierDetails, soldier);
     });
 
-
     casper.thenOpen(getFullUrl('WarTwoManage', soldierId), function() {
         soldier = this.evaluate(getSoldierWW2Details, soldier);
+    });
+    
+    casper.thenOpen(getFullUrl('ServiceManage', soldierId), function() {
+        soldier = this.evaluate(getSoldierIdfDetails, soldier);
+    });
+    
+    casper.thenOpen(getFullUrl('ContactInfoManage', soldierId), function() {
+        soldier = this.evaluate(getSoldierContactInfo, soldier);
+    });
+    
+    casper.thenOpen(getFullUrl('MedalsManage', soldierId), function() {
+        soldier = this.evaluate(getSoldierMedals, soldier);
     });
     
     casper.thenOpen(getFullUrl('CVManage', soldierId), function() {
@@ -176,6 +267,10 @@ function extractSoldier(soldierId) {
 
     casper.thenOpen(getFullUrl('PicturesManage', soldierId), function() {
         soldier = this.evaluate(getSoldierImages, soldier);
+    });
+    
+    casper.thenOpen(getFullUrl('VariousManage', soldierId), function() {
+        soldier = this.evaluate(getSoldierVarious, soldier);
     });
     
     casper.thenOpen(getFullUrl('LinksManage', soldierId), function() {
@@ -198,13 +293,30 @@ function extractSoldier(soldierId) {
     });
 }
 
+
 casper.then(function() {
+    
+    var i = 0;
+    // process soldier ids one by one
     warriorIds.forEach(function(warriorId) {
+        casper.waitFor(function check() {
+            console.log('extract num ', i++);
+            extractSoldier(warriorId);
+            return true;
+        });
+    });
+    //extractSoldier(warriorIds[0]);
+});
+
+/*casper.then(function() {
+    var i = 0;
+    warriorIds.forEach(function(warriorId) {
+        console.log('extract num ', i++);
         extractSoldier(warriorId);
     });
     
     //extractSoldier(warriorIds[0]);
-});
+});*/
 
 casper.on('remote.message', function(msg) {
     this.echo(msg);

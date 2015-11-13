@@ -62,6 +62,16 @@ h2 Warriors Details
                      input.btn.btn-default.btn-xs(type="button", value="Update")
                   td
                      input.btn.btn-default.btn-xs(type="button", value="Edit")
+ 
+.panel-group
+   .panel.panel-default
+      .panel-heading
+         h4.panel-title
+            a.accordion-toggle.collapsed(data-toggle="collapse" data-target="#collapse_resume") Resume
+   #collapse_resume.panel-collapse.collapse
+      .panel-body
+         .p(ng-model="warrior.resume")
+
 .container-fluid
    .row
       .col-lg-12

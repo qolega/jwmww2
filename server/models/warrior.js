@@ -17,8 +17,7 @@ var warriorSchema = mongoose.Schema({
     	migration_date: Date,
     	gender: {
             type: String,
-            uppercase: true,
-            enum: ['M', 'F']
+            enum: ['male', 'female']
         }
     },
     death_details: {
@@ -32,10 +31,22 @@ var warriorSchema = mongoose.Schema({
         jewish_community_volunteer_check: Boolean,
         partisan_check: Boolean,
         partisan_country: String,
-        partisan_check: Boolean,
-        partisan_country: String,
+        getto_check: Boolean,
+        getto: String,
+        resistance_movement_check: Boolean,
+        resistance_movement_country: String,
+        protest_movement_check: Boolean,
+        protest_movement: String,
         service_check: Boolean,
-        service_country: String
+        service_country: String,
+        service_corps: String,
+        service_platoon: String,
+        recruitment: {
+            type: String,
+            enum: ['volunteer', 'enlist']
+        },
+        dismiss_reason: String,
+        wounds_details: String
     },
     battles: [{
         soldier_rank: String,
@@ -45,6 +56,30 @@ var warriorSchema = mongoose.Schema({
         date: String,
         medal: String,
         details: String
+    }],
+    prison: {
+        dates: String,
+        place: String,
+        name: String,
+        circumstances: String
+    },
+    idf_details: {
+        corps: String,
+        platoon: String,
+        enlist_date: Date,
+        rank: String,
+        release_date: Date
+    },
+    idf_battles: [{
+        front: String,
+        operation: String,
+        date: String,
+        medal: String,
+        details: String
+    }],
+    medal_links: [{
+        href: String,
+        title: String
     }],
     resume: String,
     personal_story: String,
@@ -57,6 +92,19 @@ var warriorSchema = mongoose.Schema({
         href: String,
         title: String
     }],
+    contact_information: {
+        first_name: String,
+        last_name: String,
+        address: String,
+        city: String,
+        phone: String,
+        mobile_phone: String,
+        email_address: String,
+        relation_to_warrior: String,
+        date: Date,
+        first_submission: Boolean, // did this contact already submit another record
+        for_display: Boolean
+    },
 	approved : { type: Boolean, default: false },
 });
 
