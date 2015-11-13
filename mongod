@@ -3,4 +3,4 @@ mkdir -p data
 mongod --dbpath=data --nojournal "$@"
 
 
-oleg1
+oleg2
