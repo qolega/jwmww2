@@ -1,0 +1,24 @@
+<input type="image" name="ctl00$ContentPlaceHolder1$btnSearch" id="ctl00_ContentPlaceHolder1_btnSearch" src="../Images/send.jpg" style="border-width:0px;">
+
+"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1NjEwZmZiYWYwOWMxYTg1MzY4MWE3N2YiLCJuYW1lIjoiTmljayBDZXJtaW5hcmEiLCJwYXNzd29yZCI6InBhc3N3b3JkIiwiYWRtaW4iOnRydWUsIl9fdiI6MH0.Gg_Nsqns_WTSjwYGfOU-6SdjgSuPXOKOy_DKQNxf1vg"
+
+
+router.post('/login', function(req, res, next) {
+    if (!req.body.email || !req.body.password) {
+        return res.status(400).json({ error: 'Email and Password required' });
+    }
+    passport.authenticate('local-login', function(err, user, info) {
+        if (err) { 
+            return res.json(err);
+        }
+        if (user.error) {
+            return res.json({ error: user.error });
+        }
+        req.logIn(user, function(err) {
+            if (err) {
+                return res.json(err);
+            }
+            return res.json({ redirect: '/profile' });
+        });
+    })(req, res);
+});

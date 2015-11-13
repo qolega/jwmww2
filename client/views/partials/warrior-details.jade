@@ -1,0 +1,78 @@
+h2 Warriors Details
+.container-fluid
+
+   fieldset
+      legend
+         | Personal Details
+      | First Name: {{warrior.personal_information.first_name}}
+      br
+      | Last Name: {{warrior.personal_information.last_name}}
+      
+   fieldset
+      legend
+         | Death Details
+      | Death Cause: {{warrior.death_details.death_cause}}
+      
+   fieldset
+      legend
+         | Categories
+      ul
+         li(ng-repeat='category in warrior.categories')
+            | {{category}}
+            
+   fieldset
+      legend Fighting the Nazis and their assistants
+      label Participation in the partisan force : 
+      input(type="checkbox", ng-model="warrior.ww2.partisan_check")
+      select(ng-model="warrior.ww2.partisan_country", ng-options="country.name as country.name for country in availableCountries")
+
+      br
+      label Military Service:
+      input(type="checkbox", ng-model="warrior.ww2.service_check")
+      select(ng-model="warrior.ww2.service_country", ng-options="country.name as country.name for country in availableCountries")
+      
+   fieldset
+      legend
+         | Battles fought 
+      .table-responsive
+         table.table
+            thead
+               tr
+                  th #
+                  th Rank
+                  th Position
+                  th Front
+                  th Fight/Operation
+                  th Date
+                  th Decoration
+                  th Details
+                  th Update
+                  th Edit
+            tbody
+               tr(ng-repeat="battle in warrior.battles")
+                  td {{$index + 1}}
+                  td {{battle.soldier_rank}}
+                  td {{battle.soldier_role}}
+                  td {{battle.front}}
+                  td {{battle.operation}}
+                  td {{battle.date}}
+                  td {{battle.medal}}
+                  td {{battle.details}}
+                  td 
+                     input.btn.btn-default.btn-xs(type="button", value="Update")
+                  td
+                     input.btn.btn-default.btn-xs(type="button", value="Edit")
+.container-fluid
+   .row
+      .col-lg-12
+         h3 Image Gallery
+   
+   .col-lg-3.col-md-4.col-xs-6.thumb(ng-repeat='image in warrior.images')
+      a.thumbnail(href='{{image.src}}')
+         img.img-responsive.image-thumb(ng-src='{{image.src}}', alt='{{image.title}}')
+         .caption
+            h2 {{image.title}}
+            
+            
+            
+         

@@ -1,0 +1,23 @@
+
+.container
+    h2 Login
+        span.fa.fa-sing-in.fa-fw   
+    
+    .alert.alert-danger(ng-show='showMessage') {{message}}
+        
+    form(role='form', name='loginForm', ng-submit='login()')
+        .form-group
+            label(for='email') Email:
+            input.form-control(type="text", name="email", placeholder="Enter email", ng-model="email")
+            //span(ng-show="loginForm.email.$error.required") please enter email
+        .form-group
+            label(for='password') Password:
+            input.form-control(type="password", name="password", placeholder="Enter password", ng-model="password")
+            
+        input.btn.btn-warning.btn-lg(type="submit", value="Login")
+    hr
+    p Or go 
+        a(href='#/') home
+        
+
+        

@@ -1,0 +1,3 @@
+# setup a local mongo DB
+mkdir -p data
+mongod --dbpath=data --nojournal "$@"

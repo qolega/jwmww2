@@ -1,0 +1,16 @@
+h2 Warriors List
+label Search
+    input(ng-model="search")
+.container-fluid
+    .row
+        ul
+            li(ng-repeat='warrior in warriors')
+                a(href='#/warrior/{{warrior._id}}')
+                    | {{warrior.personal_information.first_name}}
+                    | {{warrior.personal_information.last_name}}
+                    span(ng-if="warrior.ww2.service_check")
+                        |  (army: {{warrior.ww2.service_country}})
+                    span(ng-if="warrior.ww2.partisan_check")
+                        |  (partizan: {{warrior.ww2.partisan_country}})
+uib-pagination(ng-model="currentPage", items-per-page="numPerPage", total-items="count", max-size="maxSize", boundary-links="true")
+h4 {{count}} total public

@@ -1,0 +1,11 @@
+.c9revisions/
+
+node_modules/
+bower_components/
+
+client/public/vf/
+
+crawler/out/
+crawler/warriors.json
+crawler/warriors_id.json
+

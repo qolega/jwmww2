@@ -1,0 +1,16 @@
+
+.container
+    h2 Add Warriors
+    
+    form(role='form')
+        .form-group
+            label(for='firstName') First Name:
+            input#firstName.form-control(type="text", ng-model="warrior.first_name", placeholder="Enter first name")
+        .form-group
+            label(for='lastName') Last Name:
+            input#lastName.form-control(type="text", ng-model="warrior.last_name", placeholder="Enter last name")
+        .form-group
+            label(for='armyName') Army Name:
+            input#armyName.form-control(type="text", ng-model="warrior.army_name", placeholder="Enter army name")
+            
+        input.btn.btn-default(type="submit", value="Submit Warrior", ng-click="addWarrior()")

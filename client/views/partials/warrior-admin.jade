@@ -1,0 +1,18 @@
+h2 Admin
+label Search
+    input(ng-model="search")
+.container-fluid
+    .row(ng-repeat='warrior in warriors')
+        .col-md-3
+            a(href='#/warrior/{{warrior._id}}')
+                | {{warrior.personal_information.first_name}}
+                | {{warrior.personal_information.last_name}}
+                span(ng-if="warrior.ww2.service_check")
+                    |  (army: {{warrior.ww2.service_country}})
+                span(ng-if="warrior.ww2.partisan_check")
+                    |  (partizan: {{warrior.ww2.partisan_country}})
+        .col-md-2
+            input.btn.btn-default.btn-xs(type="button", value="Publish", ng-click="publishWarrior(warrior._id)")   
+            input.btn.btn-default.btn-xs(type="button", value="Delete", ng-click="deleteWarrior(warrior._id)")   
+uib-pagination(ng-model="currentPage", items-per-page="numPerPage", total-items="count", max-size="maxSize", boundary-links="true")
+h4 {{count}} total

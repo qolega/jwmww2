@@ -1,0 +1,18 @@
+extends layout
+
+block content
+  nav.navbar.navbar-default(ng-controller='HeaderController')
+    .container-fluid
+      .navbar-header
+        a.navbar-brand(href='#/') #{title}
+      div
+        ul.nav.navbar-nav
+          li(ng-class="{ active: isActive('/warrior')}")
+            a(href='#/warrior') All Warriors
+          li(ng-class="{ active: isActive('/addwarrior')}")
+            a(href='#/addwarrior') Add Warrior
+          li(ng-class="{ active: isActive('/admin/warrior')}")
+            a(href='#/admin/warrior') Admin
+
+  .view-container
+    .view-frame(ng-view)

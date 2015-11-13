@@ -1,0 +1,23 @@
+
+.container
+    h2 Signup
+        span.fa.fa-sing-in.fa-fw   
+    
+    if message
+        .alert.alert-danger =message
+        
+    form(role='form', method='post', action='api/signup')
+        .form-group
+            label(for='email') Email:
+            input.form-control(type="text", name="email", placeholder="Enter email")
+        .form-group
+            label(for='password') Password:
+            input.form-control(type="password", name="password", placeholder="Enter password")
+            
+        input.btn.btn-warning.btn-lg(type="submit", value="Signup")
+    hr
+    p Or go 
+        a(href='#/') home
+        
+
+        
