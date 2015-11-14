@@ -88,6 +88,7 @@ var warriorSchema = mongoose.Schema({
         title: String,
         src: String
     }],
+    remarks: String,
     links: [{
         href: String,
         title: String

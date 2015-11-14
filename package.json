@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./server/bin/www"
+    "start": "node ./server/bin/www",
+    "scrap": "casperjs ./crawler/getWarriors.js"
   },
   "dependencies": {
     "bcrypt-nodejs": "latest",

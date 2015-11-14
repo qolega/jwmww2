@@ -10,7 +10,7 @@ var mongoose = require('mongoose');
 var passport = require('passport');
 
 // Database
-var config = require('./config/config');  // load the database config
+var config = require('./config/jwmww2-config');  // load the database config
 mongoose.connect(config.url);
 
 mongoose.set('debug', false);

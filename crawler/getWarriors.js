@@ -2,7 +2,7 @@
 
 var casper = require('casper').create({
     // inject utils to page
-    clientScripts: ["./includes/utils.js"]
+    clientScripts: ["./crawler/includes/utils.js"]
     //,verbose: true
     //,logLevel: 'debug'
 });
@@ -21,8 +21,8 @@ function getFullUrl(page, soldierId) {
     return manageUrl + page + sufixUrl + soldierId;
 }
 
-var errorsLog = './data/warriors_witherrors.json';
-var outputFileName = './data/warriors.json';
+var errorsLog = './crawler/data/warriors_witherrors.json';
+var outputFileName = './crawler/data/warriors.json';
 
 cleanWorkingDirectory();
 
@@ -174,12 +174,13 @@ function getSoldierMedals(soldier) {
 }
 
 function getSoldierCV(soldier) {
-    soldier.resume = utils.getAttribsBySelector('textarea[name$="txtCV"]');
+    soldier.resume = utils.getAttribBySelector('textarea[id$="txtCV"]');
     return soldier;
 }
 
 function getSoldierStory(soldier) {
-    soldier.resume = utils.getAttribsBySelector('textarea[name$="txtStory"]');
+    
+    soldier.personal_story = utils.getAttribBySelector('textarea[id$="txtStory"]');
     return soldier;
 }
 
@@ -201,7 +202,7 @@ function getSoldierImages(soldier) {
 }
 
 function getSoldierVarious(soldier) {
-    soldier.resume = utils.getAttribsBySelector('textarea[name$="txtRemarks"]');
+    soldier.remarks = utils.getAttribsBySelector('textarea[name$="txtRemarks"]');
     return soldier;
 }
 
@@ -229,7 +230,7 @@ casper.start('http://www.jwmww2.org/jewishFighters/Manage/Login.aspx', function(
 
 
 casper.then(function() {
-    warriorIds = JSON.parse(fs.read('./data/warriors_id.json'));
+    warriorIds = JSON.parse(fs.read('./crawler/data/warriors_id.json'));
 });
 
 
@@ -288,8 +289,8 @@ function extractSoldier(soldierId) {
     });*/
 
     casper.then(function() {
-        this.echo(JSON.stringify(soldier) + '\n');
-        fs.write(outputFileName, JSON.stringify(soldier) + '\n', 'a');
+        //this.echo(JSON.stringify(soldier));
+        fs.write(outputFileName, JSON.stringify(soldier) + '\n', 'a');    
     });
 }
 
@@ -298,14 +299,14 @@ casper.then(function() {
     
     var i = 0;
     // process soldier ids one by one
-    warriorIds.forEach(function(warriorId) {
+    /*warriorIds.forEach(function(warriorId) {
         casper.waitFor(function check() {
             console.log('extract num ', i++);
             extractSoldier(warriorId);
             return true;
         });
-    });
-    //extractSoldier(warriorIds[0]);
+    });*/
+    extractSoldier('113869'); // חנה סנש
 });
 
 /*casper.then(function() {
