@@ -8,6 +8,5 @@ client/public/vf/
 server/config/jwmww2-config.js
 
 crawler/out/
-crawler/warriors.json
-crawler/warriors_id.json
+crawler/data/
 
